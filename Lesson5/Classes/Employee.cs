@@ -29,7 +29,7 @@ namespace Lesson5.Classes
             Department = department;
         }
 
-        /// <summary>Возвращет имя и фамилию сотрудника</summary>
+        /// <summary>Возвращет имя, фамилию сотрудника</summary>
         /// <returns></returns>
         public override string ToString()
         {
