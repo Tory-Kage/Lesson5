@@ -30,7 +30,7 @@ namespace Lesson5
             db = new DB();
             empList.ItemsSource = db.GetEmployees();
             cbDepList.ItemsSource = db.GetDeptaments();
-            db.updateData += Update;
+            this.DataContext = db;
         }
 
         /// <summary>Обработка события выбора элемента из списка</summary>
@@ -48,7 +48,8 @@ namespace Lesson5
         {
             if (cbDepList.SelectedItem != null)
             {
-                DepEditWindow depEditWindow = new DepEditWindow(cbDepList.SelectedItem.ToString());
+                Department editdep = cbDepList.SelectedItem as Department;
+                DepEditWindow depEditWindow = new DepEditWindow(editdep.DepartmentID, editdep.Name);
                 depEditWindow.Owner = this;
                 depEditWindow.Show();
             }
@@ -89,13 +90,6 @@ namespace Lesson5
             AddDepWindow addDepWindow = new AddDepWindow();
             addDepWindow.Owner = this;
             addDepWindow.Show();
-        }
-
-        /// <summary>Обновляет данные на форме</summary>
-        internal void Update()
-        {
-            empList.ItemsSource = db.GetEmployees();
-            cbDepList.ItemsSource = db.GetDeptaments();
         }
     }
 }

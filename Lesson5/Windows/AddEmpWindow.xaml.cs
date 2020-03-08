@@ -30,7 +30,7 @@ namespace Lesson5.Windows
         /// <param name="e"></param>
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.db.addEmp(tboxName.Text, tboxSurname.Text, tboxAge.Text, tboxSalary.Text, tboxDepartment.Text))
+            if (MainWindow.db.addEmp(tboxName.Text, tboxSurname.Text, tboxAge.Text, tboxSalary.Text, uint.Parse(tboxDepartment.Text)))
             {
                 MessageBox.Show("Сотрудник добавлен!");
                 this.Close();
