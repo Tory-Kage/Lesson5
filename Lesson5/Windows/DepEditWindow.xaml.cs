@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,27 +16,31 @@ using System.Windows.Shapes;
 namespace Lesson5.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для DepEditWindow.xaml
+    /// Interaction logic for DepEditWindow.xaml
     /// </summary>
     public partial class DepEditWindow : Window
     {
-        uint depid;
-        public DepEditWindow(uint id, string oldName)
+        public DataRow resultRow { get; set; }
+        public DepEditWindow(DataRow dataRow)
         {
             InitializeComponent();
-            tblOldName.Text = oldName;
-            depid = id;
+            resultRow = dataRow;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            tblOldName.Text = resultRow["dName"].ToString();
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.db.editDep(tboxNewName.Text, depid))
-            {
-                MessageBox.Show("Название отдела изменено!");
-                this.Close();
-            }
-            else
-                MessageBox.Show("Такое название уже используется!");
+            resultRow["dName"] = tboxNewName.Text;
+            this.DialogResult = true;
+        }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
         }
     }
 }
