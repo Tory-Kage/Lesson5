@@ -5,46 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lesson5"
         mc:Ignorable="d"
-               Title="Company" Height="450" Width="981">
+             Title="Company" Height="450" Width="981">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="40*"/>
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="168*"/>
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="109*"/>
+            <RowDefinition Height="58*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40*"/>
             <ColumnDefinition Width="60*"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox x:Name="empList" 
-                 Margin="10,0,10,0" 
-                 Grid.Row="1"
-                 HorizontalContentAlignment="Stretch"
-                 SelectionChanged="Selected" 
-                 SelectionMode="Single">
-
-        </ListBox>
-
-        <Label x:Name="lblEmpList" Content="Список сотрудников" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"  />
-        <Label x:Name="lblDepList" Content="Список департаметов" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Center"/>
+        <Label x:Name="lblEmpList" Content="Список сотрудников" HorizontalAlignment="Center" Margin="133,8" VerticalAlignment="Center" Height="26" Width="123"  />
+        <Label x:Name="lblDepList" Content="Список отделов" HorizontalAlignment="Center" Margin="146,8,145,8" Grid.Row="2" VerticalAlignment="Center" Height="26" Width="98"/>
 
         <ComboBox x:Name="cbDepList" 
                   HorizontalAlignment="Center" 
-                  Margin="0,15,0,0" 
+                  Margin="54,15,54,0" 
                   Grid.Row="3" 
                   VerticalAlignment="Top" 
                   Width="281"
-                  SelectionChanged="Selected" 
-                 />
+                  SelectionChanged="SelectedDep"
+                  ItemsSource="{Binding}"
+                  ToolTip="Выберите отдел" Height="22">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding dName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
 
         <Label x:Name="lbInfo" 
                Content="Информация" 
                Grid.Column="1" 
                HorizontalAlignment="Center" 
-               Margin="0,0,0,0" 
-               VerticalAlignment="Center"/>
+               Margin="251,8" 
+               VerticalAlignment="Center" Height="26" Width="82"/>
 
         <TextBlock x:Name="tbInfo"
                    Grid.Column="1" 
@@ -55,47 +55,94 @@
                    VerticalAlignment="Top" 
                    Width="auto"
                    Height="auto"
-                   Margin="10,0,10,0"/>
+                   Margin="10"/>
 
         <Button x:Name="btnEditEmp" 
                 Content="Редактировать сотрудника" 
-                Grid.Column="1" 
+                Grid.Column="0" 
                 HorizontalAlignment="Left" 
-                Margin="30,30,30,30" 
-                Grid.Row="3" 
+                Margin="10,00,0,0" 
+                Grid.Row="4" 
                 VerticalAlignment="Top" 
-                Width="auto"
-                Padding="3" Click="BtnEditEmp_Click"/>
+                Width="155"
+                Padding="3" Click="BtnEditEmp_Click" Height="24"/>
 
         <Button x:Name="btnCreateEmp" 
                 Content="Добавить сотрудника" 
-                Grid.Column="1" 
+                Grid.Column="0" 
                 HorizontalAlignment="Left" 
-                Margin="45,80,30,30" 
-                Grid.Row="3" 
+                Margin="10,30,0,0" 
+                Grid.Row="4" 
                 VerticalAlignment="Top" 
-                Width="auto"
-                Padding="3" Click="BtnCreateEmp_Click"/>
+                Width="155"
+                Padding="3" Click="BtnCreateEmp_Click" Height="24"/>
 
         <Button x:Name="btnEditDep" 
                 Content="Редактировать отдел" 
-                Grid.Column="1" 
+                Grid.Column="0" 
                 HorizontalAlignment="Right" 
-                Margin="30,30,30,30" 
-                Grid.Row="3" 
+                Margin="0,30,30,0" 
+                Grid.Row="4" 
                 VerticalAlignment="Top" 
-                Width="auto"
-                Padding="3" Click="BtnEditDep_Click"/>
+                Width="123"
+                Padding="3" Click="BtnEditDep_Click" Height="24"/>
 
         <Button x:Name="btnCreateDep" 
                 Content="Добавить отдел" 
-                Grid.Column="1" 
+                Grid.Column="0" 
                 HorizontalAlignment="Right" 
-                Margin="30,80,45,30" 
-                Grid.Row="3" 
+                Margin="0,0,30,0" 
+                Grid.Row="4" 
                 VerticalAlignment="Top" 
-                Width="auto"
-                Padding="3" Click="BtnCreateDep_Click"/>
+                Width="123"
+                Padding="3" Click="BtnCreateDep_Click" Height="24"/>
+
+        <ListView x:Name="empList" 
+                  HorizontalAlignment="Stretch" 
+                  Margin="40,10,40,10" 
+                  Grid.Row="1" 
+                  VerticalAlignment="Stretch" 
+                  SelectionChanged="SelectedEmp">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat=" {0} {1}">
+                                <Binding Path="eName"/>
+                                <Binding Path="Surname"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListView>
+
+        <DataGrid x:Name="dgWorkers" 
+            Grid.Column="1" 
+            HorizontalAlignment="Left" 
+            Height="200" 
+            Margin="40,0,0,0" 
+            Grid.Row="2"
+            Grid.RowSpan="4" 
+            VerticalAlignment="Top" 
+            Width="500"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding}" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="idColumn" Binding="{Binding ID}" 
+                                    Header="ID" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn x:Name="nameColum" Binding="{Binding Name}" 
+                                    Header="Name" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn x:Name="SurnameColumn" Binding="{Binding Surname}" 
+                                    Header="Surname" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn x:Name="ageColumn" Binding="{Binding Age}" 
+                                    Header="Age" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn x:Name="SalaryColumn" Binding="{Binding Salary}" 
+                                    Header="Salary" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn x:Name="DepartmentColumn" Binding="{Binding Department}" 
+                                    Header="Department" IsReadOnly="True" Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
 
     </Grid>
